@@ -1,7 +1,7 @@
 # will be run under kafka bin folder
 
-./kafka-topics.sh --zookeeper localhost:2181 --alter --topic media-upload-topic \
---config retention.ms=1000
+#./kafka-topics.sh --zookeeper localhost:2181 --alter --topic media-upload-topic \
+#--config retention.ms=1000
 
 cd /Users/anil.ustundag/Dev/kafka/kafka-2.7.0-src/bin
 
@@ -13,5 +13,5 @@ cd /Users/anil.ustundag/Dev/kafka/kafka-2.7.0-src/bin
 ./kafka-console-consumer.sh --bootstrap-server localhost:9092 \
 --topic media-upload-topic --from-beginning \
 -property "key.separator= <> " --property "print.key=true" \
---property "print.partition=true" --group group1
-
+--property "print.partition=true" --property "print.timestamp=true" \
+--group test_group1

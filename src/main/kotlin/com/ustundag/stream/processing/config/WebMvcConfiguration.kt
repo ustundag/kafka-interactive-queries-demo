@@ -5,9 +5,9 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
-class WebMvcConfiguration(private val restInterceptor: RestInterceptor) : WebMvcConfigurer {
+class WebMvcConfiguration : WebMvcConfigurer {
 
     override fun addInterceptors(registry: InterceptorRegistry) {
-        registry.addInterceptor(restInterceptor)
+        registry.addInterceptor(RestInterceptor())
     }
 }

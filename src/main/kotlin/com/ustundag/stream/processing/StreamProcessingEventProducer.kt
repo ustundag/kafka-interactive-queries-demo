@@ -32,8 +32,8 @@ fun main() {
     val mediaProducer = KafkaProducer(props, Serdes.String().serializer(), MediaSerde().serializer())
 
     keys.forEach { key ->
-        val command = MediaUploadCommand(url = "https://www.$key.com/images/${(0..1000).random()}")
-        mediaProducer.send(ProducerRecord(MediaEventConstants.MEDIA_UPLOAD_TOPIC_NAME, key, command))
+        val command = MediaUploadCommand(url = "https://www.$key.com/images/${(0..1000).random()}.jpg")
+        mediaProducer.send(ProducerRecord(MediaEventConstants.MEDIA_UPLOAD_TOPIC, key, command))
     }
     mediaProducer.close()
 }

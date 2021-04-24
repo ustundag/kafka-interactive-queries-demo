@@ -12,40 +12,8 @@ import java.io.IOException
 
 class MediaSerde : Serde<MediaUploadCommand> {
 
-    private val objectMapper = ObjectMapper().registerKotlinModule()
     private val serializer = serializer()
     private val deserializer = deserializer()
-
-    private inner class MediaSerializer : Serializer<MediaUploadCommand> {
-
-        override fun configure(config: Map<String, *>, isKey: Boolean) {}
-
-        override fun serialize(topic: String, data: MediaUploadCommand): ByteArray {
-            return try {
-                objectMapper.writeValueAsBytes(data)
-            } catch (e: JsonProcessingException) {
-                throw SerializationException("Error serializing JSON message", e)
-            }
-        }
-
-        override fun close() {}
-    }
-
-    private inner class MediaDeserializer : Deserializer<MediaUploadCommand> {
-
-        override fun configure(config: Map<String, *>, isKey: Boolean) {}
-
-        override fun deserialize(s: String, bytes: ByteArray): MediaUploadCommand? {
-            return try {
-                objectMapper.readValue(bytes, MediaUploadCommand::class.java)
-            } catch (e: IOException) {
-                e.printStackTrace()
-                null
-            }
-        }
-
-        override fun close() {}
-    }
 
     override fun configure(configs: Map<String, *>, isKey: Boolean) {
         serializer.configure(configs, isKey)
@@ -64,4 +32,39 @@ class MediaSerde : Serde<MediaUploadCommand> {
     override fun deserializer(): Deserializer<MediaUploadCommand> {
         return MediaDeserializer()
     }
+}
+
+class MediaSerializer : Serializer<MediaUploadCommand> {
+
+    private val objectMapper = ObjectMapper().registerKotlinModule()
+
+    override fun configure(config: Map<String, *>, isKey: Boolean) {}
+
+    override fun serialize(topic: String, data: MediaUploadCommand): ByteArray {
+        return try {
+            objectMapper.writeValueAsBytes(data)
+        } catch (e: JsonProcessingException) {
+            throw SerializationException("Error serializing JSON message", e)
+        }
+    }
+
+    override fun close() {}
+}
+
+class MediaDeserializer : Deserializer<MediaUploadCommand> {
+
+    private val objectMapper = ObjectMapper().registerKotlinModule()
+
+    override fun configure(config: Map<String, *>, isKey: Boolean) {}
+
+    override fun deserialize(s: String, bytes: ByteArray): MediaUploadCommand? {
+        return try {
+            objectMapper.readValue(bytes, MediaUploadCommand::class.java)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    override fun close() {}
 }
