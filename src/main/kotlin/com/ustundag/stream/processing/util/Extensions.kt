@@ -13,7 +13,6 @@ fun String.getUrlPrefixByHost(): String {
 }
 
 fun String.getPartition(): Int {
-//    return Utils.toPositive(Utils.murmur2(this.toByteArray())) % MediaEventConstants.TOPIC_PARTITION_COUNT
     return Utils.toPositive(Utils.murmur2(this.toByteArray())) % 2
 }
 
